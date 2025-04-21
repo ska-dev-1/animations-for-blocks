@@ -76,6 +76,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 			label={label}
 			help={help}
 			hideLabelFromVision={hideLabelFromVision}
+			__nextHasNoMarginBottom
 		>
 			<WPButtonGroup>
 				{options.map(({label, value: optionValue}) => {

@@ -1,10 +1,10 @@
 === Animations for Blocks ===
-Contributors: websevendev
+Contributors: skadev
 Tags: gutenberg, block, animation, animate, slide
 Requires at least: 6.6
-Tested up to: 6.7.1
+Tested up to: 6.8
 Requires PHP: 8.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,7 +28,7 @@ Animations for Blocks plugin works by using the Animate on Scroll (AOS) library 
 
 = Does it work for all blocks? =
 It should work with normal blocks that render a valid WP Element that can utilize the `blocks.getSaveContent.extraProps` filter as well as dynamic blocks that utilize a `render_callback`. Third party blocks that do something unorthodox may not work.
-[Known unsupported blocks](https://github.com/websevendev/animations-for-blocks/blob/main/animations-for-blocks.php#L32-L35)
+[Known unsupported blocks](https://github.com/ska-dev-1/animations-for-blocks/blob/main/animations-for-blocks.php#L172-L175)
 
 = Disable block support =
 The `anfb_unsupported_blocks` filter can be used in your child theme's `functions.php` file to disable block animation support.
@@ -65,6 +65,11 @@ When none of the animated elements show up on your site it's possibly due to a J
 3. Animation controls
 
 == Changelog ==
+
+= 1.2.1 =
+* WP 6.8.
+* Update Lenis to 1.2.3.
+* Update `@wordpress/*` packages.
 
 = 1.2 =
 * Front end scripts are now deferred.

@@ -3,7 +3,7 @@
  * Plugin Name: Animations for Blocks
  * Plugin URI: https://wordpress.org/plugins/animations-for-blocks
  * Description: Allows to add animations to Gutenberg blocks on scroll.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Requires PHP: 8.1
  * Author: skadev
  * Author URI: https://profiles.wordpress.org/skadev/
@@ -672,7 +672,7 @@ function animate_block($block_content, $parsed_block, $block) {
 
 	if(
 		is_supported($parsed_block['blockName'])
-		&& has_animation($parsed_block['attrs'])
+		&& has_animation($parsed_block['attrs'] ?? [])
 		&& !is_animation_provider($parsed_block['attrs'])
 		&& !is_rest_edit_request() // Don't animate server-side rendered blocks.
 	) {

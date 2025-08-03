@@ -61,7 +61,10 @@ const RangeControl: React.FC<RangeControlProps> = ({
 	return (
 		<WPRangeControl
 			className='wsd-anfb__range-control'
-			label={label}
+			label={<>
+				<span>{label}</span>
+				<span data-type='value'>{renderTooltip(value)}</span>
+			</> as any as string}
 			help={help}
 			value={value}
 			onChange={onChange}
@@ -70,8 +73,9 @@ const RangeControl: React.FC<RangeControlProps> = ({
 			max={max}
 			withInputField={false}
 			marks={MARKS}
-			renderTooltipContent={renderTooltip}
+			showTooltip={false}
 			__nextHasNoMarginBottom
+			__next40pxDefaultSize
 		/>
 	)
 }

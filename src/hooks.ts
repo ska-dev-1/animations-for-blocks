@@ -8,10 +8,12 @@ import {
 
 import {
 	store as blocksStore,
+	// @ts-ignore
 } from '@wordpress/blocks'
 
 import {
 	store as blockEditorStore,
+	// @ts-ignore
 } from '@wordpress/block-editor'
 
 import {
@@ -81,7 +83,6 @@ export const useAnimationConfig = (clientId: string, animationsForBlocks: Animat
 
 			const context = Object.fromEntries(
 				Object.entries(blockType.providesContext).map(
-					// @ts-expect-error
 					([contextName, attributeName]) => [contextName, block.attributes[attributeName]]
 				)
 			) as AnimationsForBlocksBlockContext

@@ -8,8 +8,8 @@ import {
 } from '@wordpress/element'
 
 import {
-	// @ts-ignore
 	RichText,
+	// @ts-ignore
 } from '@wordpress/block-editor'
 
 import {
@@ -61,7 +61,6 @@ import {
 import type {
 	AnimationsForBlocks,
 	AnimationsForBlocksBlockAttributes,
-	AnimationsForBlocksBlockContext,
 	AnimationContainerBlockAttributes,
 } from './types'
 

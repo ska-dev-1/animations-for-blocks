@@ -28,7 +28,6 @@ import {
 	ANIMATIONS,
 	ANIMATION_INHERIT,
 	ANIMATION_DEFAULT,
-	DYNAMIC_ANIMATION_NAMES,
 	VARIATIONS,
 	EASINGS,
 	ANCHOR_PLACEMENTS,
@@ -107,10 +106,11 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 					pills
 					label={__('Select animation', 'animations-for-blocks')}
 					hideLabelFromVision
-					options={ANIMATIONS.concat([
+					options={[
+						...ANIMATIONS,
 						...(allowInherit ? ANIMATION_INHERIT : []),
 						...(allowDefault ? ANIMATION_DEFAULT : []),
-					])}
+					]}
 					value={animation}
 					onChange={nextAnimation => {
 
@@ -128,17 +128,20 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 								: nextAnimationVariations[0] // or default to first variation of the animation
 						) : variation
 
-						updateValue({animation: nextAnimation, variation: nextVariation})
+						updateValue({
+							animation: nextAnimation as AnimationsForBlocks['animation'],
+							variation: nextVariation,
+						})
 					}}
 				/>
-				{hasAnimation && !DYNAMIC_ANIMATION_NAMES.includes(animation) && <>
+				{hasAnimation && animation in VARIATIONS && <>
 					<ButtonGroup.Radio
 						isSmall
 						pills
 						label={__('Animation variation', 'animations-for-blocks')}
 						hideLabelFromVision
-						options={VARIATIONS[animation]}
-						value={variation || VARIATIONS[animation][0].value}
+						options={VARIATIONS[animation as keyof typeof VARIATIONS]}
+						value={variation || VARIATIONS[animation as keyof typeof VARIATIONS][0].value}
 						onChange={nextVariation => {
 							if(required && !nextVariation) {
 								return
@@ -236,6 +239,7 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 								const nextOffsetValue = parseInt(nextOffset.replace('px', ''))
 								updateValue({offset: isNaN(nextOffsetValue) ? 120 : nextOffsetValue})
 							}}
+							__next40pxDefaultSize
 						/>
 					</>}
 				</>}

@@ -7,12 +7,10 @@ import {
 } from '@wordpress/components'
 
 import {
-	// @ts-ignore
 	useBlockProps,
-	// @ts-ignore
 	useInnerBlocksProps,
-	// @ts-ignore
 	InspectorControls,
+	// @ts-ignore
 } from '@wordpress/block-editor'
 
 import RangeControl from '../../range-control'
@@ -97,7 +95,7 @@ const Save = () => {
 export const settings = {
 	edit: Edit,
 	save: Save,
-	__experimentalLabel: (attributes: AnimationContainerBlockAttributes, {context}) => {
+	__experimentalLabel: (attributes: AnimationContainerBlockAttributes, {context}: any) => {
 
 		const customName = attributes?.metadata?.name
 		if(context === 'list-view' && customName) {

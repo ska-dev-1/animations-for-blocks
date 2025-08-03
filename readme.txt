@@ -68,6 +68,10 @@ When none of the animated elements show up on your site it's possibly due to a J
 
 = 1.2.2 =
 * Fix `Warning: Undefined array key "attrs"` when a parsed block doesn't have attributes.
+* Fix `Incorrect use of <label for=FORM_ELEMENT>`.
+* Replace deprecated `wp.components.ButtonGroup`.
+* Update Lenis to 1.3.8.
+* Update `@wordpress/*` packages.
 
 = 1.2.1 =
 * WP 6.8.

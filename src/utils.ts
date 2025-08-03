@@ -9,9 +9,9 @@ import type {
 /**
  * Construct props needed for animation from animationsForBlocks object.
  */
-export const getAnimationProps = (animationsForBlocks: AnimationsForBlocks = {}, context: 'save' | 'edit' = 'save'): Record<string, string> => {
+export const getAnimationProps = (animationsForBlocks: AnimationsForBlocks = {}, context: 'save' | 'edit' = 'save') => {
 
-	let animationProps = {}
+	let animationProps: Record<string, string> = {}
 
 	if(!animationsForBlocks) {
 		return animationProps

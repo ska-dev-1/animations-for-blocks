@@ -2,10 +2,9 @@ import * as React from 'react'
 import {__, _x} from '@wordpress/i18n'
 
 import {
-	// @ts-ignore
 	InspectorControls,
-	// @ts-ignore
 	InspectorAdvancedControls,
+	// @ts-ignore
 } from '@wordpress/block-editor'
 
 import {

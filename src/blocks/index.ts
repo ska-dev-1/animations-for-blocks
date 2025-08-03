@@ -1,6 +1,6 @@
 import {
-	// @ts-ignore
 	registerBlockType,
+	// @ts-ignore
 } from '@wordpress/blocks'
 
 import * as animationContainer from './animation-container'

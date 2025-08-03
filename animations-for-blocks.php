@@ -561,8 +561,8 @@ function is_rest_edit_request() {
 	return (
 		defined('REST_REQUEST')
 		&& REST_REQUEST
-		&& isset($_REQUEST['context'])
-		&& $_REQUEST['context'] === 'edit'
+		&& isset($_REQUEST['context']) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		&& $_REQUEST['context'] === 'edit' // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	);
 }
 

@@ -6,8 +6,8 @@ import {
 } from '@wordpress/hooks'
 
 import {
-	// @ts-ignore
 	hasBlockSupport,
+	// @ts-ignore
 } from '@wordpress/blocks'
 
 import {
@@ -25,8 +25,16 @@ import {
 	getAnimationProps,
 } from './utils'
 
+import type {
+	VARIATIONS,
+} from './aos-data'
+
+import type {
+	BlockAttributes,
+} from './types'
+
 export interface AnimationsForBlocks {
-	animation?: string
+	animation?: keyof typeof VARIATIONS | 'default' | 'inherit' | 'none' | ''
 	variation?: string
 	delay?: number
 	duration?: number
@@ -58,7 +66,7 @@ const featureAttributes = {
 /**
  * Add attributes to block attributes.
  */
-const withFeatureAttributes = function(settings) {
+const withFeatureAttributes = function(settings: any) {
 
 	if(featureIsSupported(settings)) {
 		settings.attributes = Object.assign(settings.attributes || {}, featureAttributes)
@@ -86,7 +94,7 @@ const withFeatureInspectorControls = createHigherOrderComponent(
 /**
  * Add feature extra props to block save component output.
  */
-const withAnimationProps = (extraProps, blockType, attributes) => {
+const withAnimationProps = (extraProps: Record<string, any>, blockType: any, attributes: BlockAttributes) => {
 
 	if(featureIsSupported(blockType)) {
 

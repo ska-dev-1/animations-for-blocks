@@ -1,8 +1,8 @@
 import * as React from 'react'
+import cx from 'classnames'
 
 import {
 	BaseControl,
-	ButtonGroup as WPButtonGroup,
 	Button,
 } from '@wordpress/components'
 
@@ -10,7 +10,7 @@ import {
 	useInstanceId,
 } from '@wordpress/compose'
 
-import cx from 'classnames'
+import Group from './group'
 
 import './style.scss'
 
@@ -64,27 +64,26 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 		isSmall = false,
 	} = props
 
-	const instanceId = useInstanceId(options, 'wsd-anfb-button-group', id)
+	const instanceId = useInstanceId(ButtonGroup, 'wsd-anfb-button-group', id)
 
 	return (
 		<BaseControl
-			id={instanceId}
 			className={cx('wsd-anfb__button-group', {
 				'wsd-anfb__button-group--fluid': fluid,
 				'wsd-anfb__button-group--pills': pills,
+				'wsd-anfb__button-group--hide-label': hideLabelFromVision, // Passing `hideLabelFromVision` to `BaseControl` directly will produce a hidden `<label>` but there aren't any form elements for it.
 			}, className)}
-			label={label}
+			label={<span id={instanceId}>{label}</span>}
 			help={help}
-			hideLabelFromVision={hideLabelFromVision}
 			__nextHasNoMarginBottom
 		>
-			<WPButtonGroup>
+			<Group aria-labelledby={instanceId}>
 				{options.map(({label, value: optionValue}) => {
 					const isActive = value.includes(optionValue)
 					return (
 						<Button
 							key={optionValue}
-							isSmall={isSmall}
+							size={isSmall ? 'small' : undefined}
 							variant={isActive ? 'primary' : 'secondary'}
 							children={label}
 							{...(onChange && {
@@ -99,7 +98,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 						/>
 					)
 				})}
-			</WPButtonGroup>
+			</Group>
 		</BaseControl>
 	)
 }

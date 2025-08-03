@@ -1,26 +1,18 @@
-.wsd-anfb__button-group {
+:root {
 	--wsd-anfb-button-group-label-spacing: 4px;
 	--wsd-anfb-button-group-pills-spacing: 4px;
 	--wsd-anfb-button-group-consecutive-spacing: 8px;
+}
+
+.wsd-anfb__button-group {
 
 	& > .components-base-control__field {
-
 		margin-bottom: 0;
 
 		& > .components-base-control__label {
 			cursor: initial;
 			display: block;
 			margin-bottom: var(--wsd-anfb-button-group-label-spacing);
-		}
-
-		& > .components-button-group {
-
-			& > .components-button {
-
-				&.is-primary:not(:focus) {
-					box-shadow: none;
-				}
-			}
 		}
 	}
 
@@ -29,11 +21,11 @@
 		margin-bottom: 0;
 	}
 
-	&.wsd-anfb__button-group--fluid {
+	&--fluid {
 
 		& > .components-base-control__field {
 
-			& > .components-button-group {
+			& > .wsd-anfb__button-group__group {
 				display: flex;
 				flex-direction: row;
 
@@ -45,15 +37,15 @@
 		}
 	}
 
-	&.wsd-anfb__button-group--pills {
+	&--pills {
 
 		& > .components-base-control__field {
 
-			& > .components-button-group {
-				margin-left: calc(-1 * var(--wsd-anfb-button-group-pills-spacing));
-				margin-bottom: calc(-1 * var(--wsd-anfb-button-group-pills-spacing));
+			& > .wsd-anfb__button-group__group {
+				margin-left: calc(var(--wsd-anfb-button-group-pills-spacing) * -1);
+				margin-bottom: calc(var(--wsd-anfb-button-group-pills-spacing) * -1);
 
-				& > .components-button-group {
+				& > .wsd-anfb__button-group__group {
 					margin-left: 0;
 				}
 
@@ -69,6 +61,24 @@
 
 	& + & {
 		margin-top: var(--wsd-anfb-button-group-consecutive-spacing);
+	}
+
+	&--hide-label {
+
+		& > .components-base-control__field {
+
+			& > .components-base-control__label {
+				clip: rect(0, 0, 0, 0);
+				white-space: nowrap;
+				border-width: 0;
+				width: 1px;
+				height: 1px;
+				margin: -1px;
+				padding: 0;
+				position: absolute;
+				overflow: hidden;
+			}
+		}
 	}
 }
 

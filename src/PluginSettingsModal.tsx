@@ -53,7 +53,7 @@ const LOCATION_OPTIONS = [
 /**
  * Modal that displays help info for Animations for Blocks.
  */
-const PluginSettingsModal = ({onRequestClose}) => {
+const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => {
 
 	const [settings, setSettings] = usePluginSettingsEdit()
 
@@ -98,6 +98,7 @@ const PluginSettingsModal = ({onRequestClose}) => {
 				/>
 				<ButtonGroup.Radio
 					label={__('Inspector controls location', 'animations-for-blocks')}
+					help={__('Determines the area in the block options sidebar where animation options are displayed.', 'animations-for-blocks')}
 					options={LOCATION_OPTIONS}
 					value={location}
 					onChange={nextLocation => setSettings({...settings, location: (nextLocation || 'default') as PluginSettings['location']})}

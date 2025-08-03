@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Animations for blocks">
+<ruleset name="Animations for Blocks">
 
 	<rule ref="WordPress.Security" />
 

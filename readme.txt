@@ -4,7 +4,7 @@ Tags: gutenberg, block, animation, animate, slide
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 8.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ When none of the animated elements show up on your site it's possibly due to a J
 3. Animation controls
 
 == Changelog ==
+
+= 1.2.3 =
+* Change Animate on Scroll front end style media from `all` to `screen and (prefers-reduced-motion: no-preference)`.
 
 = 1.2.2 =
 * Fix `Warning: Undefined array key "attrs"` when a parsed block doesn't have attributes.

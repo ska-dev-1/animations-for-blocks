@@ -21,6 +21,7 @@ import {
 	MenuItem,
 	Icon,
 	__experimentalHStack as HStack,
+	Notice,
 } from '@wordpress/components'
 
 import {
@@ -53,6 +54,10 @@ import AnimationControl from './animation-control'
 import HelpModal from './HelpModal'
 import PluginSettingsModal from './PluginSettingsModal'
 import InspectorControlsLocation from './InspectorControlsLocation'
+
+import {
+	usePluginSettingsEdit,
+} from './hooks'
 
 import {
 	ANIMATIONS,
@@ -97,6 +102,10 @@ const InspectorControls: React.FC<InspectorControlsProps> = ({
 	const {
 		animation,
 	} = animationsForBlocks
+
+	const [{
+		ignoreReducedMotionPreference,
+	}] = usePluginSettingsEdit()
 
 	const hasAnimation = !!(animation && animation !== 'none')
 	const [showHelp, setShowHelp] = useState(false)
@@ -273,6 +282,17 @@ const InspectorControls: React.FC<InspectorControlsProps> = ({
 					</HStack>
 				</PanelHeader>
 				<PanelBody>
+					{!ignoreReducedMotionPreference && (
+						<Notice
+							className='wsd-anfb__notice__reduced-motion'
+							status='warning'
+							isDismissible={false}
+						>
+							<strong>{__('Reduced motion enabled', 'animations-for-blocks')}</strong>
+							<p>{__(`Your device has "prefers-reduced-motion" setting enabled so you won't see animations on the front end.`, 'animations-for-blocks')}</p>
+							<p>{__(`Other users will still see the animations.`, 'animations-for-blocks')}</p>
+						</Notice>
+					)}
 					<AnimationControl
 						allowInherit={!isAnimationProvider}
 						allowDefault

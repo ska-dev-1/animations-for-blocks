@@ -16,9 +16,7 @@
 	}
 }
 
-/**
- * Animations for Blocks Inspector Controls panel.
- */
+/** Animations for Blocks Inspector Controls panel. */
 .wsd-anfb {
 
 	&.components-panel {
@@ -123,5 +121,33 @@
 
 	.wsd-anfb__animation-control + &__reset-button {
 		margin-top: -24px;
+	}
+}
+
+.wsd-anfb__notice {
+
+	/** Prefers reduced motion enabled notice. */
+	&__reduced-motion {
+		display: none;
+		padding: 4px 8px;
+		margin-bottom: 1rem;
+
+		.components-notice__content {
+			margin: 0;
+
+			& > strong {
+				font-size: 12px;
+			}
+
+			& > p {
+				font-size: 11px;
+				line-height: 14px;
+				margin-bottom: 0;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			display: flex;
+		}
 	}
 }

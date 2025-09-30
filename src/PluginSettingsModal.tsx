@@ -63,6 +63,7 @@ const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => 
 		lenis = 'off',
 		location = 'default',
 		defaultAnimation = DEFAULT_ANIMATION,
+		ignoreReducedMotionPreference,
 	} = settings
 
 	return (
@@ -95,6 +96,13 @@ const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => 
 					options={LENIS_OPTIONS}
 					selected={lenis}
 					onChange={nextValue => setSettings({...settings, lenis: nextValue as PluginSettings['lenis']})}
+				/>
+				<ToggleControl
+					label={__('Ignore reduced motion preference', 'animations-for-blocks')}
+					help={__('Enable this if you want all users to see animations despite their `prefers-reduced-motion` preference.', 'animations-for-blocks')}
+					checked={ignoreReducedMotionPreference}
+					onChange={() => setSettings({...settings, ignoreReducedMotionPreference: !ignoreReducedMotionPreference})}
+					__nextHasNoMarginBottom
 				/>
 				<ButtonGroup.Radio
 					label={__('Inspector controls location', 'animations-for-blocks')}

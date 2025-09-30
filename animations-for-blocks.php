@@ -3,7 +3,7 @@
  * Plugin Name: Animations for Blocks
  * Plugin URI: https://wordpress.org/plugins/animations-for-blocks
  * Description: Allows to add animations to Gutenberg blocks on scroll.
- * Version: 1.2.3
+ * Version: 1.2.4
  * Requires PHP: 8.1
  * Author: skadev
  * Author URI: https://profiles.wordpress.org/skadev/
@@ -44,6 +44,7 @@ function get_default_settings() {
 			'offset' => 120,
 			'anchorPlacement' => 'top-bottom',
 		],
+		'ignoreReducedMotionPreference' => false,
 	];
 }
 
@@ -151,6 +152,10 @@ function register_settings() {
 							],
 							'default' => $default_settings['defaultAnimation'],
 						],
+						'ignoreReducedMotionPreference' => [
+							'type' => 'boolean',
+							'default' => $default_settings['ignoreReducedMotionPreference'],
+						],
 					],
 					'sanitize_callback' => function($settings) {
 						/** Has a strict schema limited to bool/number/enum to guarantee integrity, options should only be updated via REST API. */
@@ -202,6 +207,7 @@ function is_supported($block_name) {
  */
 function register_assets() {
 
+	$options = get_option('animations-for-blocks');
 	$asset = include WSD_ANFB_DIR . '/build/index.asset.php';
 
 	wp_register_style(
@@ -209,7 +215,7 @@ function register_assets() {
 		plugins_url('build/aos.css', WSD_ANFB_FILE),
 		[],
 		$asset['version'], // 3.0.0-beta.6
-		'screen and (prefers-reduced-motion: no-preference)'
+		($options['ignoreReducedMotionPreference'] ?? false) ? 'screen' : 'screen and (prefers-reduced-motion: no-preference)'
 	);
 
 	wp_register_script(
@@ -721,16 +727,17 @@ add_filter('render_block', __NAMESPACE__ . '\\animate_block', 10, 3);
 
 
 /**
- * Add GitHub link on the plugins page.
+ * Add GitHub and Donate links on the plugins page.
  *
  * @param array $plugin_meta
  * @param string $plugin_file
  * @return array
  */
-function github_link($plugin_meta, $plugin_file) {
+function plugin_links($plugin_meta, $plugin_file) {
 	if($plugin_file === plugin_basename(WSD_ANFB_FILE)) {
 		$plugin_meta[] = '<a href="https://github.com/ska-dev-1/animations-for-blocks" target="_blank" rel="noopener noreferrer">GitHub</a>';
+		$plugin_meta[] = '<a href="https://buymeacoffee.com/skadev" target="_blank" rel="noopener noreferrer">Donate</a>';
 	}
 	return $plugin_meta;
 }
-add_filter('plugin_row_meta', __NAMESPACE__ . '\\github_link', 10, 2);
+add_filter('plugin_row_meta', __NAMESPACE__ . '\\plugin_links', 10, 2);

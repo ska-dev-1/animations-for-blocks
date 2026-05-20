@@ -3,7 +3,7 @@
  * Plugin Name: Animations for Blocks
  * Plugin URI: https://wordpress.org/plugins/animations-for-blocks
  * Description: Allows to add animations to Gutenberg blocks on scroll.
- * Version: 1.2.5
+ * Version: 1.2.6
  * Requires PHP: 8.1
  * Author: skadev
  * Author URI: https://profiles.wordpress.org/skadev/
@@ -208,6 +208,8 @@ function is_supported($block_name) {
 function register_assets() {
 
 	$options = get_option('animations-for-blocks');
+
+	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/index.asset.php';
 
 	wp_register_style(
@@ -226,6 +228,7 @@ function register_assets() {
 		['in_footer' => true, 'strategy' => 'defer']
 	);
 
+	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/lenis.asset.php';
 
 	wp_register_style(
@@ -244,6 +247,7 @@ function register_assets() {
 		['in_footer' => true, 'strategy' => 'defer']
 	);
 
+	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/init.asset.php';
 	wp_register_script(
 		'animations-for-blocks',
@@ -264,6 +268,7 @@ add_action('init', __NAMESPACE__ . '\\register_assets');
  */
 function editor_assets() {
 
+	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/index.asset.php';
 
 	wp_enqueue_style(
@@ -305,6 +310,7 @@ function block_assets() {
 		return;
 	}
 
+	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/index.asset.php';
 
 	wp_enqueue_style(
@@ -354,6 +360,7 @@ function enqueue_front_end_lenis_assets() {
  */
 function front_end_assets() {
 
+	/** @var array */
 	$options = get_option('animations-for-blocks');
 
 	if(isset($options['lenis']) && $options['lenis'] === 'on') {

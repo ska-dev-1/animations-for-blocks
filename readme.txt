@@ -3,9 +3,9 @@ Contributors: skadev
 Donate link: https://buymeacoffee.com/skadev
 Tags: gutenberg, block, animation, animate, slide
 Requires at least: 6.6
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,10 @@ When none of the animated elements show up on your site it's possibly due to a J
 3. Animation controls
 
 == Changelog ==
+
+= 1.2.6 =
+* Tested with WordPress 7.0.
+* Update Lenis to 1.3.23.
 
 = 1.2.5 =
 * Tested with WordPress 6.9.

@@ -136,7 +136,7 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 				/>
 				{hasAnimation && animation in VARIATIONS && <>
 					<ButtonGroup.Radio
-						isSmall
+						size='small'
 						pills
 						label={__('Animation variation', 'animations-for-blocks')}
 						hideLabelFromVision
@@ -194,7 +194,7 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 							__nextHasNoMarginBottom
 						/>
 						<ButtonGroup.Radio
-							isSmall
+							size='xs'
 							pills
 							label={__('Easing', 'animations-for-blocks')}
 							help={__('Transition timing function.', 'animations-for-blocks')}
@@ -211,7 +211,7 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 							}}
 						/>
 						<ButtonGroup.Radio
-							isSmall
+							size='xs'
 							pills
 							label={__('Anchor placement', 'animations-for-blocks')}
 							help={__('Defines which position of the element regarding to window should trigger the animation.', 'animations-for-blocks')}

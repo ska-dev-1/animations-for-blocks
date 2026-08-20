@@ -3,19 +3,20 @@ Contributors: skadev
 Donate link: https://buymeacoffee.com/skadev
 Tags: gutenberg, block, animation, animate, slide
 Requires at least: 6.6
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Allows to add animations to block editor blocks on scroll.
+Allows to add animations to Block Editor blocks on scroll.
 
 == Description ==
 
 Lightweight plugin that adds additional inspector controls to block editor blocks that allow to animate the block once it becomes visible to the user during scrolling. The controls can be used to select an animation type (fade, flip, slide, zoom), variation (different directions), as well as delay, duration and more advanced settings. Upon changing an option the animation can be immediately previewed in the editor.
 
-[Demo](https://playground.wordpress.net/?plugin=animations-for-blocks&url=%2Fwp-admin%2Fpost.php%3Fpost%3D2%26action%3Dedit)
+[Live demo on WordPress Playground](https://playground.wordpress.net/?plugin=animations-for-blocks&url=%2Fwp-admin%2Fpost.php%3Fpost%3D2%26action%3Dedit)
+[Plugin website](https://ska-blocks.com/animations-for-blocks/)
 
 This plugin uses [AOS - Animate on scroll library](https://github.com/michalsnik/aos) and adds its' stylesheet (**2.8 kB**) and script (**5.2 kB**) to the front end as well as a script that initializes the animations (**1.3 kB**).
 
@@ -72,6 +73,11 @@ When none of the animated elements show up on your site it's possibly due to a J
 3. Animation controls
 
 == Changelog ==
+
+= 1.2.7 =
+* Tweaked UI for WordPress 7.1.
+* Update Lenis to 1.3.26.
+* The plugin now has a [website](https://ska-blocks.com/animations-for-blocks/).
 
 = 1.2.6 =
 * Tested with WordPress 7.0.

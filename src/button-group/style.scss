@@ -80,6 +80,21 @@
 			}
 		}
 	}
+
+	&--xs {
+
+		& > .components-base-control__field {
+
+			& > .wsd-anfb__button-group__group {
+
+				& > .components-button {
+					line-height: 20px;
+					font-weight: 499;
+					padding: 0 6px;
+				}
+			}
+		}
+	}
 }
 
 .components-v-stack {

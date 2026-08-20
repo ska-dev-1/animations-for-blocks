@@ -1,3 +1,7 @@
+:root {
+	--anfb-wp-panel-border: #e0e0e0;
+}
+
 /** Block editor (non-iframe only). */
 .edit-post-visual-editor {
 
@@ -20,7 +24,7 @@
 .wsd-anfb {
 
 	&.components-panel {
-		border-top: 1px solid rgb(221, 221, 221);
+		border-top: 1px solid var(--anfb-wp-panel-border);
 
 		&:not(:first-child) {
 			margin-top: -1px;
@@ -61,16 +65,11 @@
 		}
 	}
 
-	/** Advanced settings button. */
+	/** "Advanced settings" button. */
 	& &__button {
 
 		&-active {
 			background: #eee;
-			box-shadow: inset 0 0 1px 1px var(--wp-admin-theme-color);
-
-			&:hover {
-				color: var(--wp-admin-theme-color-darker-10);
-			}
 		}
 	}
 }
@@ -81,7 +80,7 @@
 	margin-right: -16px;
 
 	&:has(+ .components-base-control) {
-		border-bottom: 1px solid rgb(221, 221, 221);
+		border-bottom: 1px solid var(--anfb-wp-panel-border);
 		margin-bottom: 16px;
 	}
 }

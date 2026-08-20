@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Animations for Blocks
- * Plugin URI: https://wordpress.org/plugins/animations-for-blocks
+ * Plugin URI: https://ska-blocks.com/animations-for-blocks/
  * Description: Allows to add animations to Gutenberg blocks on scroll.
- * Version: 1.2.6
+ * Version: 1.2.7
  * Requires PHP: 8.1
  * Author: skadev
  * Author URI: https://profiles.wordpress.org/skadev/
@@ -22,6 +22,12 @@ define('WSD_ANFB_VER', $anfb_plugin['Version']);
 define('WSD_ANFB_FILE', __FILE__);
 define('WSD_ANFB_DIR', dirname(__FILE__));
 define('WSD_ANFB_AOS_HANDLE', 'animate-on-scroll');
+
+$pro_version_active = defined('WSD_ANFBP_VER') || is_plugin_active('animations-for-blocks-pro/animations-for-blocks-pro.php');
+if($pro_version_active) {
+	/** Pro version is a drop-in replacement. */
+	return;
+}
 
 
 /**
@@ -672,7 +678,7 @@ add_filter('render_block_context', __NAMESPACE__ . '\\filter_animation_context',
  * Add animation attributes to blocks' root HTML element when applicable.
  *
  * @param string $block_content Rendered block.
- * @param string $parsed_block Parsed array representation of block.
+ * @param array $parsed_block Parsed array representation of block.
  * @param WP_Block $block
  * @return string
  */
@@ -744,6 +750,7 @@ function plugin_links($plugin_meta, $plugin_file) {
 	if($plugin_file === plugin_basename(WSD_ANFB_FILE)) {
 		$plugin_meta[] = '<a href="https://github.com/ska-dev-1/animations-for-blocks" target="_blank" rel="noopener noreferrer">GitHub</a>';
 		$plugin_meta[] = '<a href="https://buymeacoffee.com/skadev" target="_blank" rel="noopener noreferrer">Donate</a>';
+		$plugin_meta[] = '<a href="https://ska-blocks.com/animations-for-blocks/#waitlist" target="_blank" rel="noopener noreferrer">Pro</a>';
 	}
 	return $plugin_meta;
 }

@@ -34,8 +34,9 @@ export interface ButtonGroupProps {
 	pills?: boolean
 	/** Full width. */
 	fluid?: boolean
+
 	/** Small size buttons. */
-	isSmall?: boolean
+	size?: 'small' | 'xs'
 }
 
 interface SubComponents {
@@ -61,7 +62,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 		onChange,
 		pills = false,
 		fluid = false,
-		isSmall = false,
+		size = '',
 	} = props
 
 	const instanceId = useInstanceId(ButtonGroup, 'wsd-anfb-button-group', id)
@@ -72,6 +73,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 				'wsd-anfb__button-group--fluid': fluid,
 				'wsd-anfb__button-group--pills': pills,
 				'wsd-anfb__button-group--hide-label': hideLabelFromVision, // Passing `hideLabelFromVision` to `BaseControl` directly will produce a hidden `<label>` but there aren't any form elements for it.
+				'wsd-anfb__button-group--xs': size === 'xs',
 			}, className)}
 			label={<span id={instanceId}>{label}</span>}
 			help={help}
@@ -83,7 +85,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 					return (
 						<Button
 							key={optionValue}
-							size={isSmall ? 'small' : undefined}
+							size={['small', 'xs'].includes(size) ? 'small' : undefined}
 							variant={isActive ? 'primary' : 'secondary'}
 							children={label}
 							{...(onChange && {

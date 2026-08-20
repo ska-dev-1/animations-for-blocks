@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       lenis:
-        specifier: ^1.3.23
-        version: 1.3.23(react@18.3.1)
+        specifier: ^1.3.26
+        version: 1.3.26(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: ^19.1.13
@@ -4666,8 +4666,8 @@ packages:
     resolution: {integrity: sha512-RE2g0b5VGZsOCFOCgP7omTRYFqydmZkBwl5oNnQ1lDYC57uyO9KqNnNVxT7COSHTxrRCWVcAVOcbjk+tvh/rgQ==}
     engines: {node: '>=0.10.0'}
 
-  lenis@1.3.23:
-    resolution: {integrity: sha512-YxYq3TJqj9sJNv0V9SkyQHejt14xwyIwgDaaMK89Uf9SxQfIszu+gTQSSphh6BWlLTNVKvvXAGkg+Zf+oFIevg==}
+  lenis@1.3.26:
+    resolution: {integrity: sha512-s/xTCZCxTFvHbAN1OzuhNaN5YPJH2ail0XAkctKW1b+RUAG4nUL5UHLXwNko1h8aEeT2jspBXegMgPJd8zcuag==}
     peerDependencies:
       '@nuxt/kit': '>=3.0.0'
       react: '>=17.0.0'
@@ -12908,7 +12908,7 @@ snapshots:
 
   lazy-cache@1.0.4: {}
 
-  lenis@1.3.23(react@18.3.1):
+  lenis@1.3.26(react@18.3.1):
     optionalDependencies:
       react: 18.3.1
 

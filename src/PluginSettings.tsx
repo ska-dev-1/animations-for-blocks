@@ -47,6 +47,7 @@ export const DEFAULT_ANIMATION: AnimationsForBlocks = {
 	easing: 'ease-out-cubic',
 	offset: 120,
 	anchorPlacement: 'top-bottom',
+	disableOnMobile: false,
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {

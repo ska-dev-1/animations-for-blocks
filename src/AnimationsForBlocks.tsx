@@ -43,6 +43,10 @@ export interface AnimationsForBlocks {
 	easing?: string
 	offset?: number
 	anchorPlacement?: string
+	/** Show the element without animation at or below the mobile breakpoint. */
+	disableOnMobile?: boolean
+	/** Custom breakpoint (px) for `disableOnMobile`, falls back to the plugin default. */
+	mobileBreakpoint?: number
 }
 
 /**

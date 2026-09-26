@@ -46,6 +46,13 @@ The `anfb_unsupported_blocks` filter can be used in your child theme's `function
     	return $blocks;
     });
 
+= Change the mobile breakpoint =
+Animations with "Disable on mobile" enabled are not played on screens 781px wide or smaller. Each animation can set its own breakpoint in the "Mobile breakpoint" field. Use the `anfb_mobile_breakpoint` filter to change the default.
+
+    add_filter('anfb_mobile_breakpoint', function() {
+    	return 600;
+    });
+
 = What happens when I disable this plugin? =
 After disabling this plugin blocks with animations can become invalid. From there you can attempt to recover the block by clicking "Attempt Block Recovery" which should remove the custom animation attributes. If you don't want to risk blocks becoming invalid you need to disable all animations before disabling the plugin.
 

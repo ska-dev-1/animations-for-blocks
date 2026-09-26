@@ -49,6 +49,7 @@ function get_default_settings() {
 			'easing' => 'ease-out-cubic',
 			'offset' => 120,
 			'anchorPlacement' => 'top-bottom',
+			'disableOnMobile' => false,
 		],
 		'ignoreReducedMotionPreference' => false,
 	];
@@ -155,6 +156,14 @@ function register_settings() {
 									'enum' => ['top-bottom', 'center-bottom', 'bottom-bottom', 'top-center', 'center-center', 'bottom-center', 'top-top', 'bottom-top', 'center-top'],
 									'default' => $default_settings['defaultAnimation']['anchorPlacement'],
 								],
+								'disableOnMobile' => [
+									'type' => 'boolean',
+									'default' => $default_settings['defaultAnimation']['disableOnMobile'],
+								],
+								'mobileBreakpoint' => [
+									'type' => 'integer',
+									'minimum' => 1,
+								],
 							],
 							'default' => $default_settings['defaultAnimation'],
 						],
@@ -207,6 +216,38 @@ function is_supported($block_name) {
 
 
 /**
+ * @return int Viewport width (px) at or below which animations flagged with `disableOnMobile` are not played.
+ */
+function get_mobile_breakpoint() {
+	return absint(apply_filters('anfb_mobile_breakpoint', 781));
+}
+
+
+/**
+ * Enqueue CSS that shows animated elements statically at or below the breakpoint.
+ *
+ * @param int $breakpoint
+ */
+function enqueue_mobile_breakpoint_style($breakpoint) {
+
+	static $enqueued = [];
+	if(isset($enqueued[$breakpoint]) || !apply_filters('anfb_load_styles', true, 'aos')) {
+		return;
+	}
+	$enqueued[$breakpoint] = true;
+
+	wp_add_inline_style(
+		'anfb/mobile',
+		sprintf(
+			'@media (max-width:%1$dpx){[data-aos][data-anfb-mobile="%1$d"]{opacity:1!important;transform:none!important;transition:none!important}}',
+			$breakpoint
+		)
+	);
+	wp_enqueue_style('anfb/mobile');
+}
+
+
+/**
  * Register plugin assets.
  *
  * @see https://github.com/michalsnik/aos
@@ -225,6 +266,9 @@ function register_assets() {
 		$asset['version'], // 3.0.0-beta.6
 		($options['ignoreReducedMotionPreference'] ?? false) ? 'screen' : 'screen and (prefers-reduced-motion: no-preference)'
 	);
+
+	/** Holds inline CSS for mobile breakpoints used on the page. */
+	wp_register_style('anfb/mobile', false, [], WSD_ANFB_VER);
 
 	wp_register_script(
 		WSD_ANFB_AOS_HANDLE,
@@ -299,6 +343,7 @@ function editor_assets() {
 		[
 			'unsupportedBlocks' => get_unsupported_blocks(),
 			'settings' => get_option('animations-for-blocks'),
+			'mobileBreakpoint' => get_mobile_breakpoint(),
 		]
 	);
 
@@ -498,6 +543,42 @@ function add_animation_attributes($html, $args) {
 
 
 /**
+ * Mark root element to not animate at or below the breakpoint.
+ *
+ * @param string $html Block HTML.
+ * @param int $breakpoint
+ * @return string
+ */
+function add_disable_on_mobile_attribute($html, $breakpoint) {
+
+	$tags = new WP_HTML_Tag_Processor($html);
+	if($tags->next_tag()) {
+		$tags->set_attribute('data-anfb-mobile', (string)$breakpoint);
+		enqueue_mobile_breakpoint_style($breakpoint);
+		return $tags->get_updated_html();
+	}
+
+	return $html;
+}
+
+
+/**
+ * @param array $args Animation config.
+ * @return int|false Breakpoint when animation is disabled on mobile.
+ */
+function get_disable_on_mobile_breakpoint($args) {
+
+	if(!is_array($args) || empty($args['disableOnMobile'])) {
+		return false;
+	}
+
+	$breakpoint = absint($args['mobileBreakpoint'] ?? 0);
+
+	return $breakpoint > 0 ? $breakpoint : get_mobile_breakpoint();
+}
+
+
+/**
  * @param array $block_attributes
  * @return bool Block attributes have an animation.
  */
@@ -542,7 +623,12 @@ function get_animation_from_context($block_context) {
 		&& !in_array($block_context['animationsForBlocksAnimation']['animation'], ['none', 'inherit'], true)
 	) {
 		if($block_context['animationsForBlocksAnimation']['animation'] === 'default') {
-			return get_default_animation();
+			$default_animation = get_default_animation();
+			if(!empty($block_context['animationsForBlocksAnimation']['disableOnMobile'])) {
+				$default_animation['disableOnMobile'] = true;
+				$default_animation['mobileBreakpoint'] = $block_context['animationsForBlocksAnimation']['mobileBreakpoint'] ?? null;
+			}
+			return $default_animation;
 		}
 		return $block_context['animationsForBlocksAnimation'];
 	}
@@ -731,7 +817,16 @@ function animate_block($block_content, $parsed_block, $block) {
 			$animation_config = $parsed_block['attrs']['animationsForBlocks'];
 		}
 
-		return add_animation_attributes($block_content, $animation_config);
+		$block_content = add_animation_attributes($block_content, $animation_config);
+
+		/** Disabled on mobile by the block itself, or else by its animation provider or the default animation. */
+		$breakpoint = get_disable_on_mobile_breakpoint($parsed_block['attrs']['animationsForBlocks'])
+					?: get_disable_on_mobile_breakpoint($animation_config);
+		if($breakpoint) {
+			$block_content = add_disable_on_mobile_attribute($block_content, $breakpoint);
+		}
+
+		return $block_content;
 	}
 
 	return $block_content;

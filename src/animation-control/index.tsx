@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {__, _x} from '@wordpress/i18n'
+import {__, _x, sprintf} from '@wordpress/i18n'
 import cx from 'classnames'
 
 import {
@@ -32,6 +32,10 @@ import {
 	EASINGS,
 	ANCHOR_PLACEMENTS,
 } from '../aos-data'
+
+import {
+	mobileBreakpoint as defaultMobileBreakpoint,
+} from '../data'
 
 import type {
 	AnimationsForBlocks,
@@ -82,6 +86,8 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 		easing = EASINGS[0].value,
 		anchorPlacement = ANCHOR_PLACEMENTS[0].value,
 		offset = 120,
+		disableOnMobile = false,
+		mobileBreakpoint,
 	} = value
 
 	const hasAnimation = !!(animation && animation !== 'none')
@@ -243,6 +249,41 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 						/>
 					</>}
 				</>}
+				{hasAnimation && (
+					<ToggleControl
+						label={__('Disable on mobile', 'animations-for-blocks')}
+						help={sprintf(
+							/* translators: %d: breakpoint width in pixels */
+							__('Show without animation on screens %dpx wide or smaller.', 'animations-for-blocks'),
+							mobileBreakpoint || defaultMobileBreakpoint
+						)}
+						checked={disableOnMobile}
+						onChange={() => updateValue({disableOnMobile: !disableOnMobile})}
+						__nextHasNoMarginBottom
+					/>
+				)}
+				{hasAnimation && disableOnMobile && (
+					<UnitControl
+						label={__('Mobile breakpoint', 'animations-for-blocks')}
+						help={sprintf(
+							/* translators: %d: default breakpoint width in pixels */
+							__('Leave empty to use the default (%dpx).', 'animations-for-blocks'),
+							defaultMobileBreakpoint
+						)}
+						type='number'
+						min={1}
+						value={mobileBreakpoint ? `${mobileBreakpoint}px` : ''}
+						placeholder={String(defaultMobileBreakpoint)}
+						isDragEnabled={false}
+						isUnitSelectTabbable={false}
+						units={UNIT_CONTROL_UNITS}
+						onChange={(nextBreakpoint: string = '') => {
+							const nextBreakpointValue = parseInt(nextBreakpoint.replace('px', ''))
+							updateValue({mobileBreakpoint: nextBreakpointValue > 0 ? nextBreakpointValue : undefined})
+						}}
+						__next40pxDefaultSize
+					/>
+				)}
 			</VStack>
 		</BaseControl>
 	)

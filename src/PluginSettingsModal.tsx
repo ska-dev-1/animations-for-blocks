@@ -64,6 +64,7 @@ const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => 
 		location = 'default',
 		defaultAnimation = DEFAULT_ANIMATION,
 		ignoreReducedMotionPreference,
+		disableOnMobile,
 	} = settings
 
 	return (
@@ -102,6 +103,13 @@ const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => 
 					help={__('Enable this if you want all users to see animations despite their `prefers-reduced-motion` preference.', 'animations-for-blocks')}
 					checked={ignoreReducedMotionPreference}
 					onChange={() => setSettings({...settings, ignoreReducedMotionPreference: !ignoreReducedMotionPreference})}
+					__nextHasNoMarginBottom
+				/>
+				<ToggleControl
+					label={__('Disable on mobile', 'animations-for-blocks')}
+					help={__('Turn off all animations on mobile devices.', 'animations-for-blocks')}
+					checked={disableOnMobile}
+					onChange={() => setSettings({...settings, disableOnMobile: !disableOnMobile})}
 					__nextHasNoMarginBottom
 				/>
 				<ButtonGroup.Radio

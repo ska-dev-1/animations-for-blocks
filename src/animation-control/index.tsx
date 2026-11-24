@@ -99,7 +99,6 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 			className='wsd-anfb__animation-control'
 			label={label}
 			help={help}
-			__nextHasNoMarginBottom
 		>
 			<VStack spacing={4}>
 				<ButtonGroup.Radio
@@ -181,7 +180,6 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 								once: !once,
 								mirror: !once && mirror ? !mirror : mirror,
 							})}
-							__nextHasNoMarginBottom
 						/>
 						<ToggleControl
 							label={__('Mirror', 'animations-for-blocks')}
@@ -191,7 +189,6 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 								mirror: !mirror,
 								once: !mirror && once ? !once : once,
 							})}
-							__nextHasNoMarginBottom
 						/>
 						<ButtonGroup.Radio
 							size='xs'
@@ -239,7 +236,6 @@ const AnimationControl: React.FC<AnimationControlProps> = ({
 								const nextOffsetValue = parseInt(nextOffset.replace('px', ''))
 								updateValue({offset: isNaN(nextOffsetValue) ? 120 : nextOffsetValue})
 							}}
-							__next40pxDefaultSize
 						/>
 					</>}
 				</>}

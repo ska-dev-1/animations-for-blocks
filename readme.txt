@@ -3,9 +3,9 @@ Contributors: skadev
 Donate link: https://buymeacoffee.com/skadev
 Tags: gutenberg, block, animation, animate, slide
 Requires at least: 6.6
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 8.1
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,19 @@ The `anfb_unsupported_blocks` filter can be used in your child theme's `function
     	return $blocks;
     });
 
+= Disable animations on mobile =
+The plugin has a global toggle option "Disable on mobile" which will prevent animations from playing on mobile devices. To access global plugin options select any block that supports animations and in the right sidebar inspector controls click the three dots in the top right corner of the animation controls and select "Settings" from the dropdown menu.
+
+If you would like to disable specific animations on mobile and not others (or use custom breakpoints), it's possible to add a custom class name to the block that you would like to disable the animation on and add custom CSS that handles it. For example, add a class `no-mobile-animation` and the CSS:
+
+    @media (max-width: 768px) {
+    	[data-aos].no-mobile-animation {
+    		opacity: 1 !important;
+    		transform: none !important;
+    		transition: none !important;
+    	}
+    }
+
 = What happens when I disable this plugin? =
 After disabling this plugin blocks with animations can become invalid. From there you can attempt to recover the block by clicking "Attempt Block Recovery" which should remove the custom animation attributes. If you don't want to risk blocks becoming invalid you need to disable all animations before disabling the plugin.
 
@@ -68,11 +81,18 @@ When none of the animated elements show up on your site it's possibly due to a J
 
 == Screenshots ==
 
-1. Animations on the front end
-2. Adding an animation
-3. Animation controls
+1. UI for selecting an animation with live preview
+2. Advanced animation settings UI
+3. Animations for Blocks context menu
+4. Animations for Blocks plugin settings
 
 == Changelog ==
+
+= 1.2.8 =
+* Tested with WordPress 7.2-RC3.
+* Added global toggle option to disable animations on mobile.
+* Update Lenis to 1.3.28.
+* Update `@wordpress/*` packages.
 
 = 1.2.7 =
 * Tweaked UI for WordPress 7.1.

@@ -67,7 +67,6 @@ const Edit: React.FC<BlockEditProps<AnimationContainerBlockAttributes, Animation
 							},
 						}),
 					})}
-					__nextHasNoMarginBottom
 				/>
 				{isAnimationProvider && <>
 					<RangeControl

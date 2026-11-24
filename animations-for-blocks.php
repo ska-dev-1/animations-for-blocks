@@ -3,7 +3,7 @@
  * Plugin Name: Animations for Blocks
  * Plugin URI: https://ska-blocks.com/animations-for-blocks/
  * Description: Allows to add animations to Gutenberg blocks on scroll.
- * Version: 1.2.7
+ * Version: 1.2.8
  * Requires PHP: 8.1
  * Author: skadev
  * Author URI: https://profiles.wordpress.org/skadev/

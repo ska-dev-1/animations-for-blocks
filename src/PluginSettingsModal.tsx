@@ -82,14 +82,12 @@ const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => 
 					help={__(`Play block animations in the editor automatically.`, 'animations-for-blocks')}
 					checked={animateInEditor}
 					onChange={() => setSettings({...settings, animateInEditor: !animateInEditor})}
-					__nextHasNoMarginBottom
 				/>
 				<ToggleControl
 					label={__('Lazyload assets', 'animations-for-blocks')}
 					help={__('Load assets only when a block with an animation is present on the current page.', 'animations-for-blocks')}
 					checked={lazyloadAssets}
 					onChange={() => setSettings({...settings, lazyloadAssets: !lazyloadAssets})}
-					__nextHasNoMarginBottom
 				/>
 				<RadioControl
 					label={__('Load Lenis', 'animations-for-blocks')}
@@ -103,14 +101,12 @@ const PluginSettingsModal = ({onRequestClose}: {onRequestClose: () => void}) => 
 					help={__('Enable this if you want all users to see animations despite their `prefers-reduced-motion` preference.', 'animations-for-blocks')}
 					checked={ignoreReducedMotionPreference}
 					onChange={() => setSettings({...settings, ignoreReducedMotionPreference: !ignoreReducedMotionPreference})}
-					__nextHasNoMarginBottom
 				/>
 				<ToggleControl
 					label={__('Disable on mobile', 'animations-for-blocks')}
 					help={__('Turn off all animations on mobile devices.', 'animations-for-blocks')}
 					checked={disableOnMobile}
 					onChange={() => setSettings({...settings, disableOnMobile: !disableOnMobile})}
-					__nextHasNoMarginBottom
 				/>
 				<ButtonGroup.Radio
 					label={__('Inspector controls location', 'animations-for-blocks')}

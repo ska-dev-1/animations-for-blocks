@@ -7,28 +7,28 @@
 		"release": "pnpm run build && wp-scripts plugin-zip"
 	},
 	"devDependencies": {
-		"@types/react": "^19.1.13",
-		"@wordpress/block-editor": "^15.9.0",
-		"@wordpress/blocks": "^15.9.0",
-		"@wordpress/components": "^30.9.0",
-		"@wordpress/compose": "^7.36.0",
-		"@wordpress/core-data": "^7.36.0",
-		"@wordpress/data": "^10.36.0",
-		"@wordpress/dom-ready": "^4.36.0",
-		"@wordpress/element": "^6.36.0",
-		"@wordpress/hooks": "^4.36.0",
-		"@wordpress/i18n": "^6.9.0",
-		"@wordpress/icons": "^11.3.0",
-		"@wordpress/is-shallow-equal": "^5.36.0",
-		"@wordpress/keycodes": "^4.36.0",
-		"@wordpress/notices": "^5.36.0",
+		"@types/react": "^18.3.1",
+		"@wordpress/block-editor": "^20.1.0",
+		"@wordpress/blocks": "^17.2.0",
+		"@wordpress/components": "^45.0.0",
+		"@wordpress/compose": "^9.2.0",
+		"@wordpress/core-data": "^9.2.0",
+		"@wordpress/data": "^11.2.0",
+		"@wordpress/dom-ready": "^5.2.0",
+		"@wordpress/element": "^10.2.0",
+		"@wordpress/hooks": "^5.2.0",
+		"@wordpress/i18n": "^7.2.0",
+		"@wordpress/icons": "^21.0.0",
+		"@wordpress/is-shallow-equal": "^6.2.0",
+		"@wordpress/keycodes": "^5.2.0",
+		"@wordpress/notices": "^6.2.0",
 		"@wordpress/scripts": "30.24.0",
 		"aos": "^3.0.0-beta.6",
 		"classnames": "^2.5.1",
 		"react": "^18.3.1"
 	},
 	"dependencies": {
-		"lenis": "^1.3.26"
+		"lenis": "^1.3.28"
 	},
-	"packageManager": "pnpm@10.24.0+sha256.196f4bd174ebcbd99786b33452f144cb2dc32ef4e7138ed44491e9d43d702d75"
+	"packageManager": "pnpm@12.23.0+sha512.02da94ffaf133f46074322afe552f90d40b5f71ae259aefbccdacc5085b1d617e98d65e0131f5748b9b67445978ee5055d7d59a473f1eef0d504854fefcd5975"
 }

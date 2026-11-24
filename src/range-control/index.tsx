@@ -74,8 +74,6 @@ const RangeControl: React.FC<RangeControlProps> = ({
 			withInputField={false}
 			marks={MARKS}
 			showTooltip={false}
-			__nextHasNoMarginBottom
-			__next40pxDefaultSize
 		/>
 	)
 }

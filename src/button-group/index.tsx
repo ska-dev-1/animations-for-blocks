@@ -77,7 +77,6 @@ const ButtonGroup: React.FC<ButtonGroupProps> & SubComponents = (props) => {
 			}, className)}
 			label={<span id={instanceId}>{label}</span>}
 			help={help}
-			__nextHasNoMarginBottom
 		>
 			<Group aria-labelledby={instanceId}>
 				{options.map(({label, value: optionValue}) => {

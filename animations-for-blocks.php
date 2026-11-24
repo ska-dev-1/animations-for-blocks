@@ -31,7 +31,32 @@ if($pro_version_active) {
 
 
 /**
- * @return array Default plugin options value.
+ * @type-alias AnimationConfig = array{
+ *     animation: string,
+ *     variation: string,
+ *     delay: int,
+ *     duration: int,
+ *     once: bool,
+ *     mirror: bool,
+ *     easing: string,
+ *     offset: int,
+ *     anchorPlacement: string,
+ * }
+ *
+ * @type-alias PluginSettings = array{
+ *     animateInEditor: bool,
+ *     lazyloadAssets: bool,
+ *     lenis: string,
+ *     location: string,
+ *     defaultAnimation: AnimationConfig,
+ *     ignoreReducedMotionPreference: bool,
+ *     disableOnMobile: bool,
+ * }
+ */
+
+
+/**
+ * @return PluginSettings Default plugin options value.
  */
 function get_default_settings() {
 	return [
@@ -57,7 +82,7 @@ function get_default_settings() {
 
 
 /**
- * @return array Animation providers provide these contexts and any blocks with animations should consume them.
+ * @return string[] Animation providers provide these contexts and any blocks with animations should consume them.
  */
 function get_animation_block_context_types() {
 	return [
@@ -72,7 +97,7 @@ function get_animation_block_context_types() {
 		 */
 		'animationsForBlocksAnimation',
 		/**
-		 * @var number Added delay for every subsequent consumption.
+		 * @var int Added delay for every subsequent consumption.
 		 */
 		'animationsForBlocksStagger',
 	];
@@ -190,7 +215,7 @@ function get_mobile_breakpoint() {
 
 
 /**
- * @return array Blocks known to not work properly with Animations for Blocks.
+ * @return string[] Blocks known to not work properly with Animations for Blocks.
  */
 function get_unsupported_blocks() {
 	return apply_filters('anfb_unsupported_blocks', [
@@ -206,7 +231,7 @@ function get_unsupported_blocks() {
  * Determine if block is supported to have an animation.
  *
  * @param string $block_name
- * @return boolean
+ * @return bool
  */
 function is_supported($block_name) {
 
@@ -226,6 +251,7 @@ function is_supported($block_name) {
  */
 function register_assets() {
 
+	/** @var PluginSettings */
 	$options = get_option('animations-for-blocks');
 
 	/** @var array */
@@ -278,6 +304,7 @@ function register_assets() {
 
 	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/init.asset.php';
+
 	wp_register_script(
 		'animations-for-blocks',
 		plugins_url('build/init.js', WSD_ANFB_FILE),
@@ -413,6 +440,7 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\front_end_assets', 500);
  */
 function disable_on_amp($load) {
 
+	/** @disregard P1010 */
 	if(function_exists('is_amp_endpoint') && is_amp_endpoint()) {
 		return false;
 	}
@@ -424,11 +452,12 @@ add_filter('anfb_load_scripts', __NAMESPACE__ . '\\disable_on_amp');
 
 
 /**
- * @param array $args Animation config.
+ * @param AnimationConfig $args Animation config.
  * @return array Attributes to add to root element.
  */
 function get_animation_attributes($args = []) {
 
+	/** @var AnimationConfig */
 	$args = wp_parse_args($args, [
 		'animation' => 'none',
 		'variation' => '',
@@ -495,7 +524,7 @@ function get_animation_attributes($args = []) {
  * Add animation attributes to root element.
  *
  * @param string $html Block HTML.
- * @param array $args Animation config.
+ * @param AnimationConfig $args Animation config.
  * @return string Block HTML with animation attributes.
  */
 function add_animation_attributes($html, $args) {
@@ -521,7 +550,7 @@ function add_animation_attributes($html, $args) {
 
 
 /**
- * @param array $block_attributes
+ * @param array{animationsForBlocks?: AnimationConfig} $block_attributes
  * @return bool Block attributes have an animation.
  */
 function has_animation($block_attributes) {
@@ -532,6 +561,15 @@ function has_animation($block_attributes) {
 		&& !empty($block_attributes['animationsForBlocks']['animation'])
 		&& $block_attributes['animationsForBlocks']['animation'] !== 'none'
 	);
+}
+
+
+/**
+ * @param array{animationsForBlocks?: AnimationConfig} $block_attributes
+ * @return AnimationConfig|false
+ */
+function get_animation_from_block_attributes($block_attributes) {
+	return has_animation($block_attributes) ? $block_attributes['animationsForBlocks'] : false;
 }
 
 
@@ -550,7 +588,7 @@ function is_animation_provider($block_attributes) {
 
 /**
  * @param array $block_context
- * @return array|false
+ * @return AnimationConfig|false
  */
 function get_animation_from_context($block_context) {
 
@@ -575,7 +613,7 @@ function get_animation_from_context($block_context) {
 
 
 /**
- * @return array Default animation configuration from plugin options.
+ * @return AnimationConfig Default animation configuration from plugin options.
  */
 function get_default_animation() {
 
@@ -584,6 +622,7 @@ function get_default_animation() {
 		return $default_animation;
 	}
 
+	/** @var PluginSettings */
 	$options = get_option('animations-for-blocks');
 	if(isset($options['defaultAnimation'])) {
 		$default_animation = $options['defaultAnimation'];
@@ -662,18 +701,23 @@ add_filter('register_block_type_args', __NAMESPACE__ . '\\block_args', 10, 2);
 function filter_animation_context($context, $parsed_block, $parent_block) {
 
 	/** Used to retain animation-related block context values of the last `core/post-template` block that was rendered. */
+	/** @var array|null */
 	static $stored_context = null;
 
 	/** Apply stored context to blocks that have the `inherit` animation inside Post Template block. */
 	if(
 		!is_null($stored_context)
 		&& !is_null($parent_block)
-		&& has_animation($parsed_block['attrs'])
-		&& $parsed_block['attrs']['animationsForBlocks']['animation'] === 'inherit'
-		&& isset($context['postType']) && isset($context['postId']) // Is probably in Post Template block
+		&& isset($context['postType']) // Is probably in Post Template block
+		&& isset($context['postId'])
+		&& $animation_config = get_animation_from_block_attributes($parsed_block['attrs'])
 	) {
-		foreach($stored_context as $key => $value) {
-			$context[$key] = $value;
+
+		if($animation_config['animation'] === 'inherit') {
+
+			foreach($stored_context as $key => $value) {
+				$context[$key] = $value;
+			}
 		}
 	}
 
@@ -684,8 +728,11 @@ function filter_animation_context($context, $parsed_block, $parent_block) {
 		&& $context['animationsForBlocksProvider']
 		&& isset($context['animationsForBlocksAnimation'])
 	) {
+
 		$stored_context = [];
+
 		foreach(get_animation_block_context_types() as $context_type) {
+
 			if(isset($context[$context_type])) {
 				$stored_context[$context_type] = $context[$context_type];
 			}
@@ -723,6 +770,7 @@ function animate_block($block_content, $parsed_block, $block) {
 		static $lazyloaded = false;
 		if(!$lazyloaded) {
 
+			/** @var PluginSettings */
 			$options = get_option('animations-for-blocks');
 
 			if(isset($options['lenis']) && $options['lenis'] === 'animate') {
@@ -736,25 +784,25 @@ function animate_block($block_content, $parsed_block, $block) {
 			$lazyloaded = true;
 		}
 
-		$animation_name = $parsed_block['attrs']['animationsForBlocks']['animation'];
+		if($animation_config = get_animation_from_block_attributes($parsed_block['attrs'])) {
 
-		/** Determine the animation configuration to use. */
-		if($animation_name === 'inherit') {
-			if($inherited_animation = get_animation_from_context($block->context)) {
-				$animation_config = $inherited_animation;
-				$stagger = (int)$block->context['animationsForBlocksStagger'];
-				$animation_config['delay'] = ($animation_config['delay'] ?? 0) + $cumulative_stagger;
-				$cumulative_stagger += $stagger;
-			} else {
-				return $block_content;
+			/** Determine the animation configuration to use. */
+			if($animation_config['animation'] === 'inherit') {
+
+				if($inherited_animation = get_animation_from_context($block->context)) {
+					$animation_config = $inherited_animation;
+					$stagger = (int)$block->context['animationsForBlocksStagger'];
+					$animation_config['delay'] = ($animation_config['delay'] ?? 0) + $cumulative_stagger;
+					$cumulative_stagger += $stagger;
+				} else {
+					return $block_content;
+				}
+			} elseif($animation_config['animation'] === 'default') {
+				$animation_config = get_default_animation();
 			}
-		} elseif($animation_name === 'default') {
-			$animation_config = get_default_animation();
-		} else {
-			$animation_config = $parsed_block['attrs']['animationsForBlocks'];
-		}
 
-		return add_animation_attributes($block_content, $animation_config);
+			return add_animation_attributes($block_content, $animation_config);
+		}
 	}
 
 	return $block_content;

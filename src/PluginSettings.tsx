@@ -33,8 +33,11 @@ export interface PluginSettings {
 	/** Animation that is used when the chosen animation is "Default". */
 	defaultAnimation?: AnimationsForBlocks
 
-	/** Whether to ignore users' `prefers-reduced-motion` preference on the front end.  */
+	/** Whether to ignore users' `prefers-reduced-motion` preference on the front end. */
 	ignoreReducedMotionPreference: boolean
+
+	/** Whether to disable animations on small devices. */
+	disableOnMobile: boolean
 }
 
 export const DEFAULT_ANIMATION: AnimationsForBlocks = {
@@ -56,6 +59,7 @@ export const DEFAULT_SETTINGS: PluginSettings = {
 	location: 'default',
 	defaultAnimation: DEFAULT_ANIMATION,
 	ignoreReducedMotionPreference: false,
+	disableOnMobile: false,
 }
 
 export const usePluginSettings = (): PluginSettings => {

@@ -51,6 +51,7 @@ function get_default_settings() {
 			'anchorPlacement' => 'top-bottom',
 		],
 		'ignoreReducedMotionPreference' => false,
+		'disableOnMobile' => false,
 	];
 }
 
@@ -162,6 +163,10 @@ function register_settings() {
 							'type' => 'boolean',
 							'default' => $default_settings['ignoreReducedMotionPreference'],
 						],
+						'disableOnMobile' => [
+							'type' => 'boolean',
+							'default' => $default_settings['disableOnMobile'],
+						],
 					],
 					'sanitize_callback' => function($settings) {
 						/** Has a strict schema limited to bool/number/enum to guarantee integrity, options should only be updated via REST API. */
@@ -174,6 +179,14 @@ function register_settings() {
 	);
 }
 add_action('init', __NAMESPACE__ . '\\register_settings');
+
+
+/**
+ * @return int
+ */
+function get_mobile_breakpoint() {
+	return absint(apply_filters('anfb_mobile_breakpoint', 641));
+}
 
 
 /**
@@ -218,12 +231,22 @@ function register_assets() {
 	/** @var array */
 	$asset = include WSD_ANFB_DIR . '/build/index.asset.php';
 
+	$media = 'screen';
+
+	if(!($options['ignoreReducedMotionPreference'] ?? false)) {
+		$media .= ' and (prefers-reduced-motion: no-preference)';
+	}
+
+	if($options['disableOnMobile'] ?? false) {
+		$media .= sprintf(' and (min-width: %dpx)', get_mobile_breakpoint());
+	}
+
 	wp_register_style(
 		WSD_ANFB_AOS_HANDLE,
 		plugins_url('build/aos.css', WSD_ANFB_FILE),
 		[],
 		$asset['version'], // 3.0.0-beta.6
-		($options['ignoreReducedMotionPreference'] ?? false) ? 'screen' : 'screen and (prefers-reduced-motion: no-preference)'
+		$media
 	);
 
 	wp_register_script(
